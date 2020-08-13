@@ -30,7 +30,7 @@ you want to add and configure the sensors in before()
 
 // #define BATTERY_PIN A0
 // #define BATTERY_VOLTS_PER_BIT 0.004336918
-#define BATTERY_MIN_VOLTAGE 3.0 // Voltage at 0% battery level
+#define BATTERY_MIN_VOLTAGE 3.2 // Voltage at 0% battery level
 #define BATTERY_MAX_VOLTAGE 4.2 // Voltage at 100% battery level
 
 /**********************************
@@ -38,7 +38,7 @@ you want to add and configure the sensors in before()
  */
 
 // General settings
-#define SKETCH_NAME "NM-Relay.LGT8F"
+#define SKETCH_NAME "NM-node-Ds18b20.LGT8F"
 #define SKETCH_VERSION "1.0"
 #define MY_DEBUG
 //#define MY_NODE_ID 99
@@ -84,7 +84,7 @@ you want to add and configure the sensors in before()
 // Optimizations when running on 2032 Coin Cell. Also set
 // nodeManager.setSleepBetweenSend(500) and run the board at 1Mhz
 //#define MY_TRANSPORT_UPLINK_CHECK_DISABLED
-#define MY_TRANSPORT_WAIT_READY_MS  5000
+// #define MY_TRANSPORT_WAIT_READY_MS  5000
 //#define MY_SLEEP_TRANSPORT_RECONNECT_TIMEOUT_MS 2000
 //#define MY_PARENT_NODE_ID 0
 //#define MY_PARENT_NODE_IS_STATIC
@@ -96,16 +96,16 @@ you want to add and configure the sensors in before()
 #define NODEMANAGER_DEBUG ON
 #define NODEMANAGER_INTERRUPTS OFF
 #define NODEMANAGER_SLEEP OFF
-#define NODEMANAGER_RECEIVE ON
-#define NODEMANAGER_DEBUG_VERBOSE ON
+#define NODEMANAGER_RECEIVE OFF
+#define NODEMANAGER_DEBUG_VERBOSE OFF
 #define NODEMANAGER_POWER_MANAGER OFF
 #define NODEMANAGER_CONDITIONAL_REPORT ON
-#define NODEMANAGER_EEPROM ON
+#define NODEMANAGER_EEPROM OFF
 #define NODEMANAGER_TIME OFF
 #define NODEMANAGER_RTC OFF
 #define NODEMANAGER_SD OFF
 #define NODEMANAGER_HOOKING OFF
-#define NODEMANAGER_OTA_CONFIGURATION ON
+#define NODEMANAGER_OTA_CONFIGURATION OFF
 #define NODEMANAGER_SERIAL_INPUT OFF
 
 #define MY_REPEATER_FEATURE
@@ -122,11 +122,8 @@ you want to add and configure the sensors in before()
 #include <sensors/SensorBattery.h>
 SensorBattery battery;
 
-// #include <sensors/SensorRelay.h>
-// SensorRelay relay(6);
-// SensorRelay relay1(2, 1);
-// SensorRelay relay2(3, 2);
-// SensorRelay relay3(A1, 3);
+#include <sensors/SensorDs18b20.h>
+SensorDs18b20 ds18b20(3);
 
 /***********************************
  * Main Sketch
@@ -164,9 +161,13 @@ void before() {
   // battery.setBatteryVoltsPerBit(BATTERY_VOLTS_PER_BIT);
   battery.setMinVoltage(BATTERY_MIN_VOLTAGE);
   battery.setMaxVoltage(BATTERY_MAX_VOLTAGE);
+  battery.setReportIntervalSeconds(600);
+
+  ds18b20.setReportIntervalSeconds(10);
+  debug(PSTR(LOG_BEFORE "%s #child=%d\n"), ds18b20.getName(),ds18b20.children.size());
 
   // set reporting interval for all the sensors to 10 minutes
-  nodeManager.setReportIntervalSeconds(600);
+  // nodeManager.setReportIntervalSeconds(600);
 
   // call NodeManager before routine
   nodeManager.before();
