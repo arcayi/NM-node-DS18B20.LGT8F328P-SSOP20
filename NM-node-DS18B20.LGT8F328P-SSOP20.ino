@@ -18,15 +18,6 @@
  * version 2 as published by the Free Software Foundation.
  */
 
-/**************************
-Template
-
-This sketch can be used as a template since containing the most relevant
-MySensors library configuration settings, NodeManager's settings, all its the
-supported sensors commented out and a sketch structure fully functional to
-operate with NodeManager. Just uncomment the settings you need and the sensors
-you want to add and configure the sensors in before()
-*/
 
 // #define BATTERY_PIN A0
 // #define BATTERY_VOLTS_PER_BIT 0.004336918
@@ -95,7 +86,7 @@ you want to add and configure the sensors in before()
 
 #define NODEMANAGER_DEBUG ON
 #define NODEMANAGER_INTERRUPTS OFF
-#define NODEMANAGER_SLEEP OFF
+#define NODEMANAGER_SLEEP ON
 #define NODEMANAGER_RECEIVE OFF
 #define NODEMANAGER_DEBUG_VERBOSE OFF
 #define NODEMANAGER_POWER_MANAGER OFF
@@ -108,7 +99,7 @@ you want to add and configure the sensors in before()
 #define NODEMANAGER_OTA_CONFIGURATION OFF
 #define NODEMANAGER_SERIAL_INPUT OFF
 
-#define MY_REPEATER_FEATURE
+// #define MY_REPEATER_FEATURE
 
 // import NodeManager library (a nodeManager object will be then made available)
 #include <MySensors_NodeManager.h>
@@ -142,7 +133,7 @@ void before() {
   // report measures of every attached sensors every 10 minutes
   // nodeManager.setReportIntervalMinutes(10);
   // set the node to sleep in 30 seconds cycles
-  // nodeManager.setSleepSeconds(30);
+  nodeManager.setSleepSeconds(30);
   // set the node to sleep in 5 minutes cycles
   // nodeManager.setSleepMinutes(5);
   // report battery level every 10 minutes
@@ -163,8 +154,7 @@ void before() {
   battery.setMaxVoltage(BATTERY_MAX_VOLTAGE);
   battery.setReportIntervalSeconds(600);
 
-  ds18b20.setReportIntervalSeconds(10);
-  debug(PSTR(LOG_BEFORE "%s #child=%d\n"), ds18b20.getName(),ds18b20.children.size());
+  ds18b20.setReportIntervalSeconds(60);
 
   // set reporting interval for all the sensors to 10 minutes
   // nodeManager.setReportIntervalSeconds(600);
