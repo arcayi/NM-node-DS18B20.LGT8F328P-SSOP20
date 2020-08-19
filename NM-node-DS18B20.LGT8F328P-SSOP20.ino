@@ -19,10 +19,9 @@
  */
 
 
-// #define BATTERY_PIN A0
-// #define BATTERY_VOLTS_PER_BIT 0.004336918
 #define BATTERY_MIN_VOLTAGE 3.2 // Voltage at 0% battery level
 #define BATTERY_MAX_VOLTAGE 4.2 // Voltage at 100% battery level
+#define LGT8F_POWERSAVING
 
 /**********************************
  * MySensors node configuration
