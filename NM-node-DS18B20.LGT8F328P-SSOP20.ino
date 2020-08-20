@@ -119,6 +119,12 @@ SensorDs18b20 ds18b20(3);
  * Main Sketch
  */
 
+// preHwInit
+void preHwInit()
+{
+  ds18b20.sensorInit();
+}
+
 // before
 void before() {
 
